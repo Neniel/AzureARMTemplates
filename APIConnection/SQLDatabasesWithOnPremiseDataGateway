@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "OnPremiseDataGatewayId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group-name>/providers/Microsoft.Web/connectionGateways/<your-on-premise-data-gateway-name>"
+    },
+    "connectionsLocation": {
+      "type": "String",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "SQLServer": {
+      "type": "securestring"
+    },
+    "SQLUser": {
+      "type": "securestring"
+    },
+    "SQLPassword": {
+      "type": "securestring"
+    },
+    "SQLDatabase": {
+      "type": "securestring"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "SQLDatabaseWithOnPremiseDataGateway",
+      "location": "[parameters('connectionsLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('connectionsLocation'), '/managedApis/', 'sql')]"
+        },
+        "displayName": "SQLDatabaseWithOnPremiseDataGateway",
+        "parameterValues": {
+          "server": "[parameters('SQLServer')]",
+          "database": "[parameters('SQLDatabase')]",
+          "username": "[parameters('SQLUser')]",
+          "password": "[parameters('SQLPassword')]",
+          "authType": "basic",
+          "gateway": {
+            "id": "[parameters('OnPremiseDataGatewayId')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
