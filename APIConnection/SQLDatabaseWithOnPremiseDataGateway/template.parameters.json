@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "OnPremiseDataGatewayId": {
+      "value": "/subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group-name>/providers/Microsoft.Web/connectionGateways/<your-on-premise-data-gateway-name>"
+    },
+    "SQLServer": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group-name>/providers/Microsoft.KeyVault/vaults/<your-key-vault-name>"
+        },
+        "secretName": "SQLServer"
+      }
+    },
+    "SQLUser": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group-name>/providers/Microsoft.KeyVault/vaults/<your-key-vault-name>"
+        },
+        "secretName": "SQLUser"
+      }
+    },
+    "SQLPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group-name>/providers/Microsoft.KeyVault/vaults/<your-key-vault-name>"
+        },
+        "secretName": "SQLPassword"
+      }
+    },
+    "SQLDatabase": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group-name>/providers/Microsoft.KeyVault/vaults/<your-key-vault-name>"
+        },
+        "secretName": "SQLDatabase"
+      }
+    }
+  }
+}
