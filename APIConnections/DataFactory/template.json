@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "connectionsLocation": {
+      "type": "String",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "Credentials--AADTenantId": {
+      "type": "securestring"
+    },
+    "Credentials--AADClientId": {
+      "type": "securestring"
+    },
+    "Credentials--AADClientSecret": {
+      "type": "securestring"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/connections",
+      "apiVersion": "2016-06-01",
+      "name": "AzureDataFactories",
+      "location": "eastus2",
+      "kind": "V1",
+      "properties": {
+        "displayName": "AzureDataFactories",
+        "parameterValues": {
+          "token:TenantId": "[parameters('Credentials--AADTenantId')]",
+          "token:clientId": "[parameters('Credentials--AADClientId')]",
+          "token:clientSecret": "[parameters('Credentials--AADClientSecret')]",
+          "token:grantType": "client_credentials"
+        },
+        "customParameterValues": {},
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('connectionsLocation'), '/managedApis/', 'azuredatafactory')]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
