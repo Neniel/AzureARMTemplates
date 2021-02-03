@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "connectionsLocation": {
+      "type": "String",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "Mandrill-APIKey": {
+      "type": "securestring"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "Mandrill",
+      "location": "[parameters('connectionsLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('connectionsLocation'), '/managedApis/', 'mandrill')]"
+        },
+        "displayName": "Mandrill",
+        "parameterValues": {
+          "apikey": "[parameters('Mandrill-APIKey')]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
